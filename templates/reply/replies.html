@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+        {% block title %}
+        <title> Отклики</title>
+        {% endblock title%}
+
+
+    {% block content %}
+    {% if replies %}
+        {% for reply in replies %}
+        {% if reply.accept != 'False' %}
+            <p>{{ reply.context }}</p>
+            <p>Отклик на "{{ reply.post.title }}" от пользователя {{ reply.author }} {{ reply.data|date:'d.m.y' }}"</p>
+                    {% if reply.accept == 'True' %}
+                        <p><b>Отклик принят. </b></p>
+                    {% else %}
+                      <button><a href="{% url 'accept_reply' reply.id %}">Принять</a></button>
+                    {% endif %}
+                <hr>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        Откликов нет
+    {% endif %}
+    {% endblock content %}

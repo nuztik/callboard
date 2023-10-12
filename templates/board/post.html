@@ -1,0 +1,49 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+
+    <h1>{{ post.title }}</h1>
+   <hr>
+ {% if post %}
+       <table>
+           <tr>
+               <td>Дата публикации</td>
+               <td>Автор</td>
+               <td>Категория</td>
+               <td>Файл</td>
+               <td>Описание</td>
+           </tr>
+
+           <tr>
+               <td>{{ post.data|date:'M d Y' }}</td>
+               <td>{{ post.author }}</td>
+               <td>{{ post.category }}</td>
+               <td>
+                   {% if post.file%}
+                        <img src="{{ post.file.url }}" width="100px">
+                   {% endif %}
+               </td>
+               <td>{{ post.context }}</td>
+           </tr>
+       </table>
+{% else %}
+       <h2>Такого объявления нет!</h2>
+{% endif %}
+{% if reply in replies %}
+    <table>
+        <td>{{ reply.author }}</td>
+        <td>{{ reply.data }}</td>
+        <td>{{ reply.context }}</td>
+    </table>
+{% endif %}
+<hr>
+<button><a href="reply/create/">Создать отклик</a></button>
+<button><a href="{% url 'delete_post' post.id %}">Удалить</a></button>
+<button><a href="'board/<int:pk>/update/">Редактировать</a></button>
+
+{% endblock content %}

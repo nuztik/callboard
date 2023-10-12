@@ -1,0 +1,28 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+    <h1> Поиск объявлений : {{ search|length }} </h1>
+    <hr>
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+    {% for post in search%}
+    <div>
+        {{post.author.user__username}}
+        <br>
+        {{post.data|date:'d.m.Y'}}
+        <br>
+        <a href="{% url 'post' post.id %}">{{ post.title }}</a>
+        <br>
+        {{post.context|truncatechars:50}}
+        <br>
+        {{post.get_news_display}}
+    </div>
+    {%endfor%}
+
+{% endblock content %}

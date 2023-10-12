@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+author
+{% endblock title %}
+
+{% block content %}
+<h1>Страница Автора: {{ post.author.username }}</h1>
+{% if post %}
+        <h2>{{ posts.title }}</h2>
+        <br>
+        {{ post.context }}
+        <button><a class="text-center" href="/posts/{{post.id}}">читать </a> </button>
+        <br>
+{% endif %}
+{% endblock content %}

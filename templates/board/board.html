@@ -1,0 +1,60 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Board
+{% endblock title %}
+
+{% block content %}
+   <h1>Все Объявления</h1>
+   <h2> Количество объявлений:</h2>
+   <h3>{{ board|length }}</h3>
+   <hr>
+    {% if user.is_authenticated %}
+    <a href="{% url 'p_create' %}"><button> Создать объявление </button></a>
+    <a href="{% url 'search' %}"><button> Найти объявление </button></a>
+    <a href="{% url 'replies' %}"><button> Просмотреть отклики на посты </button></a>
+    {% endif %}
+   {% if board %}
+       <table>
+           <tr>
+                <td>Объявление</td>
+               <td>Автор</td>
+               <td>Дата публикации</td>
+               <td>Категория</td>
+               <td>Описание</td>
+           </tr>
+
+           {% for post in board %}
+           <tr>
+               <td>
+                   <a href="{% url 'post' post.id %}">{{ post.title }}</a>
+               </td>
+               <td>{{ post.author }}</td>
+               <td>{{ post.data|date:'M d Y' }}</td>
+               <td>{{ post.category }}</td>
+               <td>{{ post.context|truncatewords:50 }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Объявлений нет!</h2>
+   {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+    {{ page_obj.number }}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
